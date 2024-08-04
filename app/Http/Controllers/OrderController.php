@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -6,9 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 
+/**
+ * Provides functionality for managing orders in the application.
+ * 
+ * @author Farsang Balázs <farsangbalazs617@gmail.com>
+ */
 class OrderController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * Create a new order.
+     *
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         $validatedData = $request->validate([
             'customerId' => 'required|exists:users,id',
@@ -37,13 +49,28 @@ class OrderController extends Controller
         return response()->json($order);
     }
 
-    public function restaurantOrders($restaurantId)
+    /**
+     * Get all orders for the specified restaurant.
+     *
+     * @param int $restaurantId The ID of the restaurant to fetch orders for.
+     * 
+     * @return \Illuminate\Http\JsonResponse A JSON response containing the orders.
+     */
+    public function restaurantOrders($restaurantId): \Illuminate\Http\JsonResponse
     {
         $orders = Order::where('restaurant_id', $restaurantId)->get();
         return response()->json($orders);
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified order.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $validatedData = $request->validate([
             'status' => 'required|in:received,preparing,ready,delivered',
@@ -61,7 +88,14 @@ class OrderController extends Controller
         return response()->json($order);
     }
 
-    public function show($id)
+    /**
+     * Get the specified order.
+     *
+     * @param int $id The ID of the order to retrieve.
+     * 
+     * @return \Illuminate\Http\JsonResponse A JSON response containing the order.
+     */
+    public function show($id): \Illuminate\Http\JsonResponse
     {
         $order = Order::with('orderItems')->find($id);
 
