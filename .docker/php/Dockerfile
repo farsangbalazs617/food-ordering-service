@@ -42,12 +42,12 @@ ENV PATH $PATH:/composer/vendor/bin
 RUN composer config --global process-timeout 3600
 RUN composer global require "laravel/installer"
 
-RUN php artisan migrate:reset
-RUN php artisan migrate
-RUN php artisan db:seed
-
 WORKDIR /root
 RUN git clone https://github.com/seebi/dircolors-solarized
 
 EXPOSE 5173
 WORKDIR /var/www
+
+RUN php artisan migrate:reset
+RUN php artisan migrate
+RUN php artisan db:seed
