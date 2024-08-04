@@ -41,8 +41,6 @@ RUN php artisan key:generate
 # RUN php artisan route:cache
 RUN php artisan config:cache
 
-COPY init-storage/ storage/app/public
-
 RUN chown -R www-data:www-data \
     /var/www/storage \
     /var/www/bootstrap/cache
